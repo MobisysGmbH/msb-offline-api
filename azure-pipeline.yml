@@ -17,7 +17,7 @@ steps:
   inputs:
     command: "custom"
     ${{ if eq(parameters.dryRun, false) }}:
-      customCommand: "ls"
+      customCommand: "publish $(Build.SourcesDirectory) --access public"
     ${{ else }}:
       customCommand: "publish $(Build.SourcesDirectory) --access public --dry-run"
     verbose: true
