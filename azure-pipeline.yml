@@ -49,7 +49,7 @@ steps:
       if ('${{parameters.dryRun}}' -eq 'True') {
         Write-Host "(test-run) Did not push the tag to origin"
       } else {
-        git push origin "$packageVersion"
+        #git push origin "$packageVersion"
       }
     pwsh: true
     workingDirectory: $(Build.SourcesDirectory)
