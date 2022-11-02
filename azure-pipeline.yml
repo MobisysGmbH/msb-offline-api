@@ -4,7 +4,7 @@ resources:
     type: github
     name: MobisysGmbh/devops-templates  # repository name (format depends on `type`)
     endpoint: MobisysGmbH  # name of the service connection to use (for types that aren't Azure Repos)
-    ref: refs/heads/v5-add # defaults to refs/heads/main if ref is not set
+    ref: refs/heads/release/v5 # defaults to refs/heads/main if ref is not set
 
 parameters:
   - name: dryRun
@@ -19,6 +19,6 @@ extends:
   template: /yaml/kickstarter-templates/publish-to-npmjs-pipeline.yml@devops
   parameters:
     dryRun: ${{ parameters.dryRun }}
-    publishingBranch: 'refs/heads/use-new-devops-template-pipeline'
+    publishingBranch: 'refs/heads/main'
     applicationRootPath: $(Build.SourcesDirectory)
     vmImage: 'ubuntu-latest'
