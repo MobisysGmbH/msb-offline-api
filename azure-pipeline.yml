@@ -19,7 +19,7 @@ steps:
     displayName: "Publishing to https://registry.npmjs.org/"
   ${{ else }}:
     displayName: "(test-run) Publishing to https://registry.npmjs.org/"
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/appPipeline'))
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
   inputs:
     command: "custom"
     ${{ if eq(parameters.dryRun, false) }}:
@@ -31,7 +31,7 @@ steps:
     workingDir: $(Build.SourcesDirectory)
 
 - task: PowerShell@2
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/appPipeline'))
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
   ${{ if eq(parameters.dryRun, false) }}:
     displayName: Tag Sourcecode
   ${{ else }}:
