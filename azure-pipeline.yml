@@ -21,8 +21,7 @@ steps:
     ${{ else }}:
       customCommand: "publish $(Build.SourcesDirectory) --access public --dry-run"
     verbose: true
-    publishRegistry: useExternalRegistry
-    publishEndpoint: 'Npmjs.com Connection'
+    customEndpoint: "Npmjs.com Connection"
     workingDir: $(Build.SourcesDirectory)
 
 - ${{ if eq(parameters.dryRun, 'false') }}:
