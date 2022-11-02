@@ -11,6 +11,9 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
+- checkout: self
+  clean: true
+
 - task: Npm@1
   ${{ if eq(parameters.dryRun, false) }}:
     displayName: "Publishing to https://registry.npmjs.org/"
