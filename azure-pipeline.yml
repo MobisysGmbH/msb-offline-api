@@ -1,15 +1,44 @@
-resources:
-  repositories:
-    - repository: devops
-      type: github
-      name: MobisysGmbh/devops-templates
-      endpoint: MobisysGmbH
-      ref: refs/heads/release/v1
+parameters:
+  - name: dryRun
+    type: boolean
+    displayName: Test that the commands are working without really actually doing something.
+    default: true
 
 trigger: none
 pr: none
 
-extends:
-  template: /yaml/kickstarter-templates/package-pipeline.yml@devops
-  parameters:
-    packageType: npm
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: Npm@1
+  condition: succeeded()
+  displayName: "Publish npm package to npmjs.com"
+  inputs:
+    command: "custom"
+    ${{ if eq(parameters.dryRun, 'false') }}:
+      customCommand: "npm publish $(Build.SourcesDirectory) --access public"
+    ${{ else }}:
+      customCommand: "npm publish $(Build.SourcesDirectory) --access public --dry-run"
+    verbose: true
+    publishRegistry: useExternalRegistry
+    workingDir: $(Build.SourcesDirectory)
+
+- task: PowerShell@2
+  condition: and(succeeded(), eq(parameters.dryRun, 'false'))
+  displayName: Tag Sourcecode
+  inputs:
+    targetType: 'inline'
+    script: |
+      # Get package version from package.json
+      $packageJsonFile = "$(Build.SourcesDirectory)/package.json"
+      $packageConfig = Get-Content -Path "$packageJsonFile" | ConvertFrom-Json
+      $appVersion = $packageConfig.version
+
+      # Git tag the current source code state
+      git config user.name "AzureDevOps Agent"
+      git config user.email "team-devops@mobisys.de"
+      git tag -a "$appVersion" $commit -m "Added by Azure Build Pipeline"
+      git push origin "$appVersion"
+    pwsh: true
+    workingDirectory: $(Build.SourcesDirectory)
