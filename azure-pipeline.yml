@@ -19,6 +19,6 @@ extends:
   template: /yaml/kickstarter-templates/publish-to-npmjs-pipeline.yml@devops
   parameters:
     dryRun: ${{ parameters.dryRun }}
-    publishingBranch: 'refs/heads/main'
+    publishingBranch: 'refs/heads/use-new-devops-template-pipeline'
     applicationRootPath: $(Build.SourcesDirectory)
     vmImage: 'ubuntu-latest'
