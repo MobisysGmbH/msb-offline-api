@@ -1,7 +1,7 @@
 parameters:
   - name: dryRun
     type: boolean
-    displayName: Test that the commands are working without really actually doing something.
+    displayName: Only do test run - No real publishing!
     default: true
 
 trigger: none
