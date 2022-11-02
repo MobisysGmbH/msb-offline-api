@@ -46,12 +46,12 @@ steps:
       git config user.email "team-devops@mobisys.de"
       git tag -a "$packageVersion" $commit -m "Added by Azure Build Pipeline"
 
-      Write-Host $dryRun
-      if ($dryRun -eq 'false') {
+      Write-Host "dryRun = ${{parameters.dryRun}}"
+      if (${{parameters.dryRun}} -eq 'false') {
         #git push origin "$packageVersion"
-        Write-Host "Did push the tag to origin"
+        Write-Host "Did push the tag to origin" -ForegroundColor yellow -BackgroundColor red
       } else {
-        Write-Host "(test-run) Did not push the tag to origin" -ForegroundColor white -BackgroundColor red
+        Write-Host "(test-run) Did not push the tag to origin" -ForegroundColor yellow -BackgroundColor red
       }
     pwsh: true
     workingDirectory: $(Build.SourcesDirectory)
