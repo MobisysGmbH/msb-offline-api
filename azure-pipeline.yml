@@ -25,21 +25,22 @@ steps:
     publishEndpoint: 'Npmjs.com Connection'
     workingDir: $(Build.SourcesDirectory)
 
-- task: PowerShell@2
-  condition: and(succeeded(), eq(parameters.dryRun, 'false'))
-  displayName: Tag Sourcecode
-  inputs:
-    targetType: 'inline'
-    script: |
-      # Get package version from package.json
-      $packageJsonFile = "$(Build.SourcesDirectory)/package.json"
-      $packageConfig = Get-Content -Path "$packageJsonFile" | ConvertFrom-Json
-      $appVersion = $packageConfig.version
+${{ if eq(parameters.dryRun, 'false') }}:
+  - task: PowerShell@2
+    condition: succeeded()
+    displayName: Tag Sourcecode
+    inputs:
+      targetType: 'inline'
+      script: |
+        # Get package version from package.json
+        $packageJsonFile = "$(Build.SourcesDirectory)/package.json"
+        $packageConfig = Get-Content -Path "$packageJsonFile" | ConvertFrom-Json
+        $packageVersion = $packageConfig.version
 
-      # Git tag the current source code state
-      git config user.name "AzureDevOps Agent"
-      git config user.email "team-devops@mobisys.de"
-      git tag -a "$appVersion" $commit -m "Added by Azure Build Pipeline"
-      git push origin "$appVersion"
-    pwsh: true
-    workingDirectory: $(Build.SourcesDirectory)
+        # Git tag the current source code state
+        git config user.name "AzureDevOps Agent"
+        git config user.email "team-devops@mobisys.de"
+        git tag -a "$packageVersion" $commit -m "Added by Azure Build Pipeline"
+        git push origin "$packageVersion"
+      pwsh: true
+      workingDirectory: $(Build.SourcesDirectory)
