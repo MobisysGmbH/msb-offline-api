@@ -19,12 +19,12 @@ steps:
     ${{ if eq(parameters.dryRun, false) }}:
       customCommand: "ls"
     ${{ else }}:
-      customCommand: "fund"
+      customCommand: "publish $(Build.SourcesDirectory) --access public --dry-run"
     verbose: true
     customEndpoint: "Npmjs.com Connection"
     workingDir: $(Build.SourcesDirectory)
 
-- ${{ if eq(parameters.dryRun, 'false') }}:
+- ${{ if eq(parameters.dryRun, false) }}:
   - task: PowerShell@2
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/appPipeline'))
     displayName: Tag Sourcecode
