@@ -15,7 +15,7 @@ steps:
   ${{ if eq(parameters.dryRun, false) }}:
     displayName: "Publishing to https://registry.npmjs.org/"
   ${{ else }}:
-    displayName: "(dry-run) Publishing to https://registry.npmjs.org/"
+    displayName: "(test-run) Publishing to https://registry.npmjs.org/"
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/appPipeline'))
   inputs:
     command: "custom"
@@ -32,7 +32,7 @@ steps:
   ${{ if eq(parameters.dryRun, false) }}:
     displayName: Tag Sourcecode
   ${{ else }}:
-    displayName: (dry-run) Tag Sourcecode
+    displayName: (test-run) Tag Sourcecode
   inputs:
     targetType: 'inline'
     script: |
@@ -45,10 +45,10 @@ steps:
       git config user.name "AzureDevOps Agent"
       git config user.email "team-devops@mobisys.de"
       git tag -a "$packageVersion" $commit -m "Added by Azure Build Pipeline"
-      if ($dryRun == false) {
-        git push origin "$packageVersion"
+      if ($dryRun) {
+        echo "(test-run) Did not push the tag to origin"
       } else {
-        echo "(dry-run) Did not push the tag to origin"
+        git push origin "$packageVersion"
       }
     pwsh: true
     workingDirectory: $(Build.SourcesDirectory)
