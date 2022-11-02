@@ -22,6 +22,7 @@ steps:
       customCommand: "npm publish $(Build.SourcesDirectory) --access public --dry-run"
     verbose: true
     publishRegistry: useExternalRegistry
+    publishEndpoint: 'Npmjs.com Connection'
     workingDir: $(Build.SourcesDirectory)
 
 - task: PowerShell@2
