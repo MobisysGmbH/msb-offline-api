@@ -12,8 +12,8 @@ pool:
 
 steps:
 - task: Npm@1
-  condition: succeeded()
   displayName: "Publish npm package to npmjs.com"
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/appPipeline'))
   inputs:
     command: "custom"
     ${{ if eq(parameters.dryRun, 'false') }}:
@@ -26,7 +26,7 @@ steps:
 
 - ${{ if eq(parameters.dryRun, 'false') }}:
   - task: PowerShell@2
-    condition: succeeded()
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/appPipeline'))
     displayName: Tag Sourcecode
     inputs:
       targetType: 'inline'
