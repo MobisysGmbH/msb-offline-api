@@ -25,7 +25,7 @@ steps:
     publishEndpoint: 'Npmjs.com Connection'
     workingDir: $(Build.SourcesDirectory)
 
-${{ if eq(parameters.dryRun, 'false') }}:
+- ${{ if eq(parameters.dryRun, 'false') }}:
   - task: PowerShell@2
     condition: succeeded()
     displayName: Tag Sourcecode
