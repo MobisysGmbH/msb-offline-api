@@ -17,9 +17,9 @@ steps:
   inputs:
     command: "custom"
     ${{ if eq(parameters.dryRun, 'false') }}:
-      customCommand: "npm publish $(Build.SourcesDirectory) --access public"
+      customCommand: "publish $(Build.SourcesDirectory) --access public"
     ${{ else }}:
-      customCommand: "npm publish $(Build.SourcesDirectory) --access public --dry-run"
+      customCommand: "publish $(Build.SourcesDirectory) --access public --dry-run"
     verbose: true
     publishRegistry: useExternalRegistry
     publishEndpoint: 'Npmjs.com Connection'
