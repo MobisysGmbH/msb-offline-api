@@ -16,10 +16,10 @@ steps:
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/appPipeline'))
   inputs:
     command: "custom"
-    ${{ if eq(parameters.dryRun, 'false') }}:
-      customCommand: "publish $(Build.SourcesDirectory) --access public"
+    ${{ if eq(parameters.dryRun, false) }}:
+      customCommand: "ls"
     ${{ else }}:
-      customCommand: "publish $(Build.SourcesDirectory) --access public --dry-run"
+      customCommand: "fund"
     verbose: true
     customEndpoint: "Npmjs.com Connection"
     workingDir: $(Build.SourcesDirectory)
