@@ -61,6 +61,8 @@ interface IOfflineComponent {
   CDATATYPE: string;
   CENABLED: string;
   CEVENT: string;
+  /** Needs Offline 600SP1 or greater */
+  CEVENTPARAM: string;
   CEVENTTYPE: string;
   CFIELDFILL: string;
   CFORCOMP: string;
@@ -68,6 +70,12 @@ interface IOfflineComponent {
   CH2OFF: string;
   CH2ONL: string;
   CHIDDEN: string;
+  /** Needs Offline 600SP1 or greater */
+  CICON_ALIGN: string;
+  /** Needs Offline 600SP1 or greater */
+  CICON_RATIO: string;
+  /** Needs Offline 600SP1 or greater */
+  CICON: string;
   CINPUTTYPE: string;
   CKEYPAD: string;
   CLEN: string;
